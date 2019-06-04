@@ -16,7 +16,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 function callout_cgb_load_td(){
 	$path_to_translation = basename(dirname(__FILE__,2)) . '/languages/';
 	//var_dump($path_to_translation);
-	load_plugin_textdomain('callout-cgb', false, $path_to_translation );
+	load_plugin_textdomain('Callout-block-with-CGB', false, $path_to_translation );
 }
 add_action('plugins_loaded', 'callout_cgb_load_td');
 
@@ -43,15 +43,6 @@ function callout_cgb_cgb_block_assets() { // phpcs:ignore
 		null // filemtime( plugin_dir_path( __DIR__ ) . 'dist/blocks.style.build.css' ) // Version: File modification time.
 	);
 
-	// Register block editor script for backend.
-	wp_register_script(
-		'callout_cgb-cgb-block-js', // Handle.
-		plugins_url( '/dist/blocks.build.js', dirname( __FILE__ ) ), // Block.build.js: We register the block here. Built with Webpack.
-		array( 'wp-blocks', 'wp-i18n', 'wp-element', 'wp-editor' ), // Dependencies, defined above.
-		null, // filemtime( plugin_dir_path( __DIR__ ) . 'dist/blocks.build.js' ), // Version: filemtime — Gets file modification time.
-		true // Enqueue the script in the footer.
-	);
-
 	// Register block editor styles for backend.
 	wp_register_style(
 		'callout_cgb-cgb-block-editor-css', // Handle.
@@ -74,19 +65,32 @@ function callout_cgb_cgb_block_assets() { // phpcs:ignore
 		'callout-cgb/rtext', array(
 			// Enqueue blocks.style.build.css on both frontend & backend.
 			'style'         => 'callout_cgb-cgb-style-css',
-			// Enqueue blocks.build.js in the editor only.
-			'editor_script' => 'callout_cgb-cgb-block-js',
 			// Enqueue blocks.editor.build.css in the editor only.
 			'editor_style'  => 'callout_cgb-cgb-block-editor-css',
 		)
 	);
 	
-	//load script translation jsons
-	$path_to_translation = basename(dirname(__FILE__,2)) . '/languages/';
-	if ( function_exists( 'wp_set_script_translations' ) ) {
-		wp_set_script_translations( 'callout_cgb-cgb-block-js', 'callout-cgb', $path_to_translation );
-	}	
+		
 }
 
 // Hook: Block assets.
 add_action( 'init', 'callout_cgb_cgb_block_assets' );
+
+function callout_add_gutenberg_scripts() {
+	// Register block editor script for backend.
+	wp_enqueue_script(
+		'callout-cgb-js', // Handle.
+		plugins_url( '/dist/blocks.build.js', dirname( __FILE__ ) ), // Block.build.js: We register the block here. Built with Webpack.
+		array( 'wp-blocks', 'wp-i18n', 'wp-element', 'wp-editor' ), // Dependencies, defined above.
+		'1.0.9', // filemtime( plugin_dir_path( __DIR__ ) . 'dist/blocks.build.js' ), // Version: filemtime — Gets file modification time.
+		true // Enqueue the script in the footer.
+	);
+
+	//load script translation jsons
+	$path_to_translation = plugin_dir_path( dirname(__FILE__)) . 'languages';
+	if ( function_exists( 'wp_set_script_translations' ) ) {
+		wp_set_script_translations( 'callout-cgb-js', 'Callout-block-with-CGB', $path_to_translation );
+	}
+}
+
+add_action( 'enqueue_block_editor_assets', 'callout_add_gutenberg_scripts' );

@@ -14,7 +14,7 @@ var { __ } = wp.i18n;
 wp.blocks.registerBlockType(
 	'callout-cgb/rtext',
 	{
-		title: __('Callout block with RichText component', 'callout-cgb'),
+		title: __('Callout block with RichText component', 'Callout-block-with-CGB'),
 		category: 'widgets',
 		icon: 'buddicons-activity',
 		keywords: [ 'akarmi', 'valami' ],
@@ -39,7 +39,7 @@ wp.blocks.registerBlockType(
 				{
 					tagName: 'h2',
 					className: props.className,
-					placeholder: __('Type something here...', 'callout-cgb'),
+					placeholder: __('Type something here...', 'Callout-block-with-CGB'),
 					value: props.attributes.content,
 					style: {
 						backgroundColor: props.attributes.backgroundColor,

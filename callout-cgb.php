@@ -4,7 +4,7 @@
  * Description: This is a remake of Callout Block Plugin made with CGB toolkit.
  * Author: Peter Bankuti
  * Version: 0.1
- * Text Domain: callout-cgb
+ * Text Domain: Callout-block-with-CGB
  * Domain Path: languages
  *
  * @package CGB
